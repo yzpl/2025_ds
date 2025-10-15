@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>自動配色</title>
+  <style>
+    body {
+      font-family: "Yu Gothic", "游ゴシック体", "游ゴシック", "YuGothic", sans-serif;
+      text-align: center;
+      margin: 40px;
+      background: #f9f9f9;
+    }
+    h1 {
+      font-weight: normal;
+      margin-bottom: 30px;
+    }
+    .color-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 20px;
+    }
+    .color-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .color-code {
+      font-family: monospace;
+      font-size: 14px;
+      color: #333;
+    }
+    button {
+      font-size: 16px;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007acc;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>自動配色</h1>
+
+  <div class="color-container">
+    <div>
+      <div id="circle1" class="color-circle"></div>
+      <div id="code1" class="color-code">#FFFFFF</div>
+    </div>
+    <div>
+      <div id="circle2" class="color-circle"></div>
+      <div id="code2" class="color-code">#FFFFFF</div>
+    </div>
+    <div>
+      <div id="circle3" class="color-circle"></div>
+      <div id="code3" class="color-code">#FFFFFF</div>
+    </div>
+  </div>
+
+  <button id="colorBtn">色を表示</button>
+
+  <script>
+    function getRandomColor() {
+      // ランダムに16進カラーコードを作成
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for(let i=0; i<6; i++) {
+        color += letters[Math.floor(Math.random()*16)];
+      }
+      return color;
+    }
+
+    function generateDistinctColors(n) {
+      const colors = [];
+      while(colors.length < n) {
+        let newColor = getRandomColor();
+        // 既にある色と被らないようにチェック（単純にコードで比較）
+        if(!colors.includes(newColor)) {
+          colors.push(newColor);
+        }
+      }
+      return colors;
+    }
+
+    document.getElementById('colorBtn').addEventListener('click', () => {
+      const colors = generateDistinctColors(3);
+      for(let i=1; i<=3; i++) {
+        const circle = document.getElementById(`circle${i}`);
+        const code = document.getElementById(`code${i}`);
+        circle.style.backgroundColor = colors[i-1];
+        code.textContent = colors[i-1];
+      }
+    });
+  </script>
+
+</body>
+</html>
